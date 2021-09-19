@@ -1,0 +1,466 @@
+When a class is loaded, following tasks are performed by JRE:
+
+1. Static data members if defined in the class, are created in the class area.
+2. Static block if defined in the class, is executed.
+3. The task because of which the class is loaded, is performed.
+
+
+In a class,order of members doesn't matter i.e. members in a class can be defined in any order but the 
+order of statements in a method or constructor matters. Statements are executed in the order they
+are defined.
+
+Argument Passing mechanism of Java:
+1. Primitive arguments (char, int, short, long, byte, float, double and boolean) 
+are passed by value i.e. their copy is created in the invoked method.
+2. Objects are passed by references i.e. same object is refered by another
+name in the invoked method.
+
+We can use the following examples to understand the differences of these two approaces:
+
+Problem statement: 
+1. Define a class named Swapper which has a method named swap to swap two integers.
+2. Define another class named SwapperTest which has main() method. In the main() method, 2 integers
+are created and initialized and swapped using the swap() method of the Swapper class.
+
+As seen in the last example we can't get the values of two integers swapped through a method because
+copy of integers is passed to the method. 
+If want to swap them, we need to convert integer values to objects because when objects are passed to
+methods their copy is not created.
+To convert integers to objects we can define a class as follows:
+
+
+this keyword: 
+
+In Java, each non static method and constructor has an implicit parameter (which is not defined but can be used)
+by the name this. It receives the reference of the invoking object in the method.
+It has following uses:
+
+1. It is used to refer data members of the object in case local variables and data members have same name.
+syntax of referencing the data members of the invoking object:
+
+this.memberName
+
+2. It is used for intra-class (within class) constructor chaining.
+Constructor chaining is the facility of invoking a constructor from another constructor. Intra-class constructor 
+chaining is used when there are multiple constructors in a class i.e. constructors are overloaded.
+If we have n datamembers and m constructors in a class then without constructor chaining, n*m statements
+are required for initialization.
+With the help of constructor chaining, these statements can be reduced to n+m-1.
+
+syntax of invoking a same class constructor from another constructor:
+this(arguments if any); // It must be the first statement of the invoking constructor
+
+3. It is used for method chaining
+
+Method chaining is the facility of invoking multiple methods on an object in a single statement.
+
+e.g. obj be an object on which m1(), m2() and m3() methods are to be invoked.
+Without method chaining:
+obj.m1();
+obj.m2();
+obj.m3();
+
+With method chaining:
+obj.m1().m2().m3();
+
+
+
+Sep 18, 2021
+
+Relation b/w classes can be of two types:
+
+Is-A Relation
+Has-A Relation
+
+e.g. 
+Car is a Vehicle, is an example of Is-A relation.
+Car has engine, is an example of Has-A relation.
+
+Today, we will explore Is-A relation.
+
+Is-A relation is implemented with the help of inheritance i.e. if a class inherits anohter class then
+Is-A relation is created b/w them.
+
+In Java, extends keyword is used for inheritance.
+
+syntax:
+
+class ClassName extends SuperClassName{
+
+    Additional methods
+       or
+    Additional data members and methods   
+}
+
+e.g. class A{
+
+    public void one(){
+        System.out.println("It is one of A");
+    }
+}
+
+class B extends A{
+    public void two(){
+        System.out.println("It is two of B");
+    }
+}
+
+Here B is inheriting A i.e. we can use one() as well two() methods with the object of B.
+Inheritance is used for code reusability and run time polymorphism.
+
+Inheritance can be of different types such as:
+
+1. Multiple Inheritance
+2. Multilevel Inheritance
+3. Hybrid Inheritance
+
+When a class extends more than one classes, it is known as multiple inheritance. In Java,
+Multiple inheritance is not supported.
+
+we can't do the following in Java:
+
+class X{
+    // some members
+   
+}
+
+class Y{
+    // some members
+    
+}
+
+class Z extends X,Y{
+    //won't compile
+
+}
+
+When a class extends another class which extends another class and so on then it is known as Multilevel
+inheritance.
+
+Utility of inheritance can be understood with the help of following example:
+
+Problem Statement:
+
+We need to define Rectangle and Cuboid classes to represent rectangles and cuboids as objects.
+
+There can be following approaches:
+
+1. Independent classes are defined for Rectangle and Cuboid
+2. Both Rectangle and Cuboid have length & breadth, we can define a common class for length and breadth
+and can inherit it in both Rectangle and Cuboid. 
+
+class Common{
+
+    int length, breadth;
+
+    public Common(int l, int b){
+        length =l;
+        breadth =b;
+    }
+    public void display(){
+        System.out.println("Lenght: "+length);
+        System.out.println("Breadth: "+breadth);
+    }
+}
+
+class Rectangle extends Common{
+
+    public Rectangle(int l, int b){
+        super(l,b); // Parent class constructor is inovked
+    }
+    //Additonal behaviour is defiend
+    public int area(){
+        return length * breadth;
+    }
+    public int perimeter(){
+        return 2*(length * breadth);
+    }
+}
+
+class Cuboid extends Common{
+
+// additional attribute is defined
+    int height;
+
+    public Cuboid(int l, int b, int h){
+        super(l,b); // Parent class constructor is inovked
+        height = h;
+    }
+//Additonal behaviour is defiend
+public void display(){
+        super.display(); // Super class method is invoked.
+        System.out.println("height: "+height);
+    }
+ public int volume(){
+     return length * breadth * height;
+ }   
+}
+
+public class InheritanceTest{
+    public static void main(String arr[]){
+        System.out.println("Creating Rectangle object r...");
+        Rectangle r = new Rectangle(4,5);
+         System.out.println("Creating Cuboid object c...");
+        Cuboid c = new Cuboid(10, 20, 30);
+        System.out.println("Dimension of Rectangle");
+        r.display();
+         System.out.println("Dimension of Cuboid");
+        c.display();
+        System.out.println("Area of Rectangle is: "+r.area());
+        System.out.println("Volume of Cuboid is: "+c.volume());
+    }
+} 
+
+
+Uses of super keyword:
+
+1. It is used to inovke super class constructor from a sub class constructor.
+
+syntax:  super(args if any);
+
+Note- It must be the first statement of a sub class constructor.
+
+2. It is used to invoke a super class method from a sub class method.
+
+syntax: super.methodName(args if any);
+
+3. It is used to refer super class data members in a subclass when there is a 
+name conflict b/w super class and sub class data members.
+
+syntax: super.memberName
+
+
+Method Overriding: When a sub class defines a method having the same
+signature as a method of its super class then the sub class is said to 
+be Overriding the method of its super class.
+
+Method Overriding is one of the means of implementing polymorphism. Methods are
+overridden by sub classes to perform a task in different way than their parent class.
+
+In our example, Cuboid class is Overriding the display() method.
+
+Sep 19, 2021
+
+When a class inherits another class then in addition to the features, it also inherits the
+name of its super class i.e. Objects of subclass can be referenced by the name of super class.
+
+e.g. let there be following classes:
+
+class A {
+
+}
+
+class B extends A{
+
+}
+
+class C extends B {
+
+}
+
+Objects of these classes can be referenced as follows:
+
+ObjectType              ReferenceType
+1. A                     A, Object
+e.g. A x = new A();
+     Object y = new A();
+
+2. B                     B, A, Object 
+e.g. B x = new B();
+     A y = new B();
+     Object z = new B();
+
+3. C                    C, B, A, Object
+e.g. C x = new C();
+     B y = new C();
+     A z = new C(); 
+     Object o = new C();
+
+
+In java, each class is inherited from java.lang.Object class i.e. Object is the implicit super class 
+of all java classes. It contains  attributes and behaviour common to all java objects.
+
+Each time object of any class is created, it inherits the featurs of all its parent classes up to the
+object class which means whenever the object is created all the constrcturs starting from the Object
+class up to the instiated class must be executed so that the object is properly initialized.
+
+At the time of compilation, compiler checks each class for constrctur chaining with Object class.
+If chaining is not there then compilation error is generated.
+
+Object class has only a default constrctur so if a class doesn't explictly invoke super()/this() from
+its constrcturs then compiler adds super() as the first statement to all the constrcutors of the class.
+
+
+Find out the output of following classes:
+
+class A{
+    
+    public A(){
+        System.out.println("In A.");
+    }
+}
+
+class B extends A{
+    
+}
+public class C extends B {
+    public C(){
+        System.out.println("In C.");
+    }
+    public static void main(String args[]) {
+     A x = new A();
+     B y = new B();
+     C z = new C();
+      
+    }
+}
+
+
+Again find out the output?
+
+class A{
+    
+    public A(){
+        System.out.println("In A.");
+    }
+}
+
+class B extends A{
+    int x;
+    public B(int x){
+        this.x=x;
+        System.out.println("In B");
+    }
+}
+public class C extends B {
+    public C(){
+        System.out.println("In C.");
+    }
+    public static void main(String args[]) {
+     A x = new A();
+     B y = new B(5);
+     C z = new C();
+      
+    }
+}
+
+Again, find out the output?
+
+class A{
+    
+    public A(){
+        System.out.println("In A.");
+    }
+}
+
+class B extends A{
+    int x;
+    public B(int x){
+        this.x=x;
+        System.out.println("In B");
+    }
+    
+}
+public class C extends B {
+    public C(){
+        super(5);
+        System.out.println("In C.");
+    }
+    public static void main(String args[]) {
+     A x = new A();
+     B y = new B(5);
+     C z = new C();
+      
+    }
+}
+
+And, again find out the output?
+
+class A{
+    
+    public A(){
+        System.out.println("In A.");
+    }
+}
+
+class B extends A{
+    int x;
+    public B(int x){
+        this.x=x;
+        System.out.println("In B");
+    }
+    public B(){
+        System.out.println("In B default");
+    }
+}
+public class C extends B {
+    public C(){
+        System.out.println("In C.");
+    }
+    public static void main(String args[]) {
+     A x = new A();
+     B y = new B(5);
+     C z = new C();
+      
+    }
+}
+
+
+
+Static & Dynamic binding:
+
+At the time of compilation, compiler links each method call to a method definition. This 
+process is known as binding.
+
+If the compiler is able to bind a method call then it is known as static or early binding.
+Sometimes due to some ambiguity, compiler is not able to bind a method call and defers it
+till the time of execution. At the time of execution, JRE binds the method call to a 
+definition. It is known as dynamic or late binding.
+
+How method calls are binded:
+
+1. If a call has only one interpretation and will continue to have only one interpretation 
+in future, it is statically binded.
+
+2. If a call has multiple interpretations or may have multiple interpretations in future then 
+it is dynamically binded.
+
+Compiler uses following rules for deciding binding:
+
+1. Calls of constrcturs are statically binded.
+2. Calls of private methods are statically binded
+3. Calls of static methods are statically binded
+4. Calls which are made using super keyword (super.methodName()) are statically binded.
+5. All other calls are dynamically binded.
+
+following example can be used to understand static & dynamic binding:
+
+class A{
+    public void display()
+    {
+        System.out.println("In A");
+    }
+    public void display(String str){
+        System.out.println(str);
+    }
+    public static void invoke(A obj){
+       obj.display(); //Will be dynamically binded
+    }
+}
+class B extends A{
+    public void display()
+    {
+        System.out.println("In B");
+    }
+}
+
+
+public class Invoker {
+    
+     public static void main(String args[]) {
+     A x = new A();
+     A.invoke(x);//Will be statically binded
+     A y = new B();
+     A.invoke(y);//Will be statically binded
+    }
+}
