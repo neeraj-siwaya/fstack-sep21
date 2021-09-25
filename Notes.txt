@@ -384,7 +384,7 @@ class A{
 }
 
 class B extends A{
-    int x;
+    private int x;
     public B(int x){
         this.x=x;
         System.out.println("In B");
@@ -394,6 +394,7 @@ class B extends A{
     }
 }
 public class C extends B {
+
     public C(){
         System.out.println("In C.");
     }
@@ -462,5 +463,199 @@ public class Invoker {
      A.invoke(x);//Will be statically binded
      A y = new B();
      A.invoke(y);//Will be statically binded
+    }
+}
+
+Sep 25, 2021.
+
+abstract keyword: Is used to define abstract classes and methods. An abstract method is method
+without implementation. It represent what is to be done but doesn't specify how it should be done.
+
+Abstract methods are used by parent classes when they want all their sub classes to some task in their
+own way.
+
+If a class contains any abstract method then it is declared as an abstract class.
+
+An abstract class can't be instantiated i.e. its object can't be created. Whenever a class extends
+an abstract class then it has to define all the abstract methods of the super class otherwise it also
+need to be declared as abstract.
+
+e.g. Let there be a family, which has two common functionality a() & b(). Implementation of a() is known
+in advance but implementation of b() is not. b() implementation can vary from member to member. 
+We can defien our family as follows:
+
+abstract class AB{
+
+public void a() // definition
+{
+    System.out.println("It is gifted to all members by the parent class.");
+}
+abstract void b(); // declaration
+}
+
+class ABC extends AB{
+    // won't compile because it extends A but doesn't define b() method.
+}
+
+class ABD extends AB{
+    public void b(){
+        System.out.println("Child is forced to implement this feature");
+    }
+}
+
+
+final keyword: It has following uses:
+
+1. It is used to prevent overridden of methods by subclasses.
+
+syntax:
+
+public class XY
+{
+
+    public void x(){
+        System.out.printl("It can be overridden by subclasses");
+    }
+    final public void y(){
+        System.out.printl("It can't be overridden by subclasses");
+    }
+}
+
+class XYZ extends XY{
+    public void y(){
+        System.out.printl("It won't compile.");
+    }
+}
+
+2. It is used to prevent inheritance from a class.
+
+e.g.
+
+public final class X{
+    // it can't be extended
+}
+
+public class Y extends X{
+    //won't compile
+}
+
+3. It is used to define named constants.
+
+A named constant is variable value of which can't be changed.
+
+Syntax: final type varName = value;
+
+e.g. final double pi = 3.14;
+   pi = pi + 1; // won't compile.
+
+Uses of abstract, final and dynamic binding can be understood with the help of following example:
+
+Let XYZ by a bank which currently provides the facility of opening saving, current, RD & FD accounts to
+its customers. Each quarter bank need to credit interest to the accounts of all the customers. The back
+wants us to automate this process.
+
+Following are the additional requirements of the bank.
+
+1. Bank may launch new account types in future and may stop operating current account types.
+2. Differnt account types have different interest rates which change as per the policy of the 
+central bank of the country e.g. RBI in india.
+3. Each month statement of all accounts should be generated in the following standard format:
+
+AccountName: ABC
+AccountType: Saving/Current/RD/FD
+Balance:  ****
+InterestRate: **
+
+The bank want us to write such code that no modification is required when the above requirements change.
+
+
+The above requirements can be fulfilled as follows:
+
+abstract class Account{
+
+    private String name;
+    private double balance;
+
+    public Account(String name, double balance){
+        this.name=name;
+        this.balance=balance;
+    }
+    // To make sure that each account has interest rate
+    public abstract double getInterestRate();
+
+    // To generate statement of all accounts in a standard format
+    public final void display(){
+        System.out.println("AccountName: "+name);
+        System.out.println("Account Type: "+this.getClass().getName()); // Feature of parent
+        System.out.println("Balance: "+balance);
+        System.out.println("Interest Rate: "+this.getInterestRate()); // Feature of children
+    }
+}
+
+public class Saving extends Account{
+
+    public Saving(String name, double balance){
+        super(name, balance);
+    }
+    
+    public double getInterestRate(){
+        return 3.5;
+    }
+
+}
+
+public class Current extends Account{
+
+    public Current(String name, double balance){
+        super(name, balance);
+    }
+    
+    public double getInterestRate(){
+        return 1;
+    }
+
+}
+
+public class RD extends Account{
+
+    public RD(String name, double balance){
+        super(name, balance);
+    }
+    
+    public double getInterestRate(){
+        return 5;
+    }
+
+}
+
+public class FD extends Account{
+
+    public FD(String name, double balance){
+        super(name, balance);
+    }
+    
+    public double getInterestRate(){
+        return 7.25;
+    }
+
+}
+
+public class AccountTest{
+
+    public static void main(String arr[]){
+        System.out.println("Creating some accounts...");
+        Saving one = new Saving("Amit", 10000);
+        Current two = new Current("XYZ Copr.", 1000000);
+        RD three = new RD("Ravi", 25000);
+        FD four = new FD("Sachin", 250000);
+        System.out.println("Statement of account one...");
+        one.display();
+        System.out.println("Statement of account two...");
+        two.display();
+        System.out.println("Statement of account three...");
+        three.display();
+        System.out.println("Statement of account four...");
+        four.display();
+
     }
 }
