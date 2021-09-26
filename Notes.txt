@@ -659,3 +659,86 @@ public class AccountTest{
 
     }
 }
+
+Sep 26, 2021.
+
+Interface: An interface is a collection of implict abstract methods and static final data members.
+It can't be instantiated but its reference variable can be created. Interfaces facilitate runtime 
+polymorphism.
+
+Interfaces are implemented by classes. When a class implements an interface it need to define all 
+the interface methods otherwise it need to be declared as abstract.
+
+syntax of defining an interface:
+
+interface InterfaceName{
+    implicit abstract methods
+          or
+    static final data members
+          or
+    both            
+}
+
+e.g. interface AB{
+    void a();
+    void b();
+}
+
+Both the methods of AB are by default public and abstract.
+
+syntax of implementing an interface:
+
+class ClassName implements InterfaceName, ...
+{
+
+    public definition of all the interfaces methods
+    other members of the class if any
+}
+
+e.g.
+
+class One implements AB{
+    public void a(){
+        System.out.println("a() of One");
+    }
+    public void b(){
+        System.out.println("b() of One");
+    }
+}
+
+Notes: A class can implement any number of interfaces.
+
+In order to understand the use of interfaces, we need to understand inheritance types.
+
+Inheritance can be of two types:
+
+1. Feature based inheritance
+2. Role based inheritance
+
+Feature based inheritance: In feature based inheritance both features and name are inherited. Features 
+facilitate code reusability and name facilitate run time polymorphism. It isfacilitated by extends 
+keyword. In real life, we can inherit both name and features from a single family only i.e. 
+multiple feature based inheritance is not supported in real life
+hence it is not supported in java as well.
+
+Role based inheritance: Only name is inherited which represents the role. Its only purpose is
+runtime polymorphism. In real life, we can play multiple roles i.e. multiple role based inheritance
+is supported in real life hence it is supported in java as well through interfaces.
+
+Interfaces are required only when there are at least two parties, referencing party (Yashoda, Rada, Arjun etc)
+and referenced party (Krishna).
+
+There are only two scenarios in which interfaces are used:
+
+1. A referenced party want to hide some of its functionality from the referencing parties.
+2. Referencing parties are interested only in a limited functionality of a referenced party.
+
+Scenario 1 can be understood with the help of following example:
+
+Let assume that there are three programmers A, B & C. A has a class named PQR which has p(), q()
+and r() methods. A want to expose only p() to the class of B and only q() to the class of C.
+
+A can do it as described in the diagram.
+
+
+

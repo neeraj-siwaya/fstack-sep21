@@ -17,4 +17,13 @@ abstract class Account{
         System.out.println("Balance: "+balance);
         System.out.println("Interest Rate: "+this.getInterestRate()); // Feature of children
     }
+
+    // To credit interest to all accounts
+    public static void creditInterest(Account account){
+        double ir = account.getInterestRate(); // dynamic binding
+        double qir = ir/4; // quarterly interest rate is calculated.
+        double amount = (account.balance * qir )/ 100;
+        account.balance += amount;
+    }
+   
 }
