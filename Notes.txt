@@ -740,5 +740,128 @@ and r() methods. A want to expose only p() to the class of B and only q() to the
 
 A can do it as described in the diagram.
 
+Oct 3, 2021
+
+Scenario 2: We will se the example of second Scenario when we will study multithreading.
+
+Has-A relation: When a class has object or objects of another class as a member then Has-A relation
+is created.
+
+Has-A relation can be of two types:
+
+1. Aggeragation
+2. Composition
+
+Aggeragation represents part and whole relation. It is a weaker relation in the sense that in it
+either part or whole or both may have their Independent existence.
+
+e.g. Room has fans. Room has chairs etc.
+
+Composition represents madeup of relation. It is a stronger relation in the sense that in it 
+existence of both the parties depends on each other.
+
+e.g. Room has roof. Room has walls.
+
+Aggeragation is represented by using an object or objects of a class as a member in another class.
+
+e.g. 
+
+System class has an object out of PrintStream class as its member to represent system has output device
+relation.
+
+Following example demonstrate the use of Aggeragation:
+
+public class Fan{
+
+    private String brand;
+    private String type;
+
+    public Fan(String b, String t){
+        brand = b;
+        type =t;
+    }
+
+    public String toString(){
+        return type+" fan of "+brand;
+    }
+}
+
+public class Room {
+    
+    private String name;
+    private Fan fan;
+
+
+    public Room(String n, Fan f){
+        name=n;
+        fan =f;
+    }
+    public void display(){
+        System.out.println("It is a "+name+" room.");
+        //System.out.print("It has a ");
+        //fan.display();
+        System.out.println("It has "+fan);
+    }
+}
+
+public class AggregationTest {
+    public static void main(String arr[]){
+
+        Room r1 = new Room("Living", new Fan("Usha","Ceiling"));
+        Room r2 = new Room("Study", new Fan("Crompton","Table"));
+        System.out.println("Details of room one...");
+        r1.display();
+        System.out.println("Details of room two...");
+        r2.display();
+    }
+}
+
+
+In the above example, we have also introdue the toString() method which is used by the
+print() and println() methods to print an object i.e. if we want to print object of any class
+just like primitive values and strings, we need to override toString() method in our class.
+
+Whenever the object of a class is passed to print() or println() method, it is converted into a string
+with the help of toString() and the string is printed.
+
+Composition is implemented with the help of nested or inner classes. When a class is defined
+within the scope of another class, it is known as nested or inner class.
+
+e.g.
+
+public class A{
+
+   public class B{
+
+
+   }
+}
+
+Here class B is defined within the scope of class A i.e. B is nested within A. Nested classes don't 
+have Independent existence and can't be directly referenced.
+They are referenced as a member of outer class using the following syntax:
+
+outerClassName.innerClassName
+
+e.g. A.B (B of A)
+
+Members of a class can be of two types: static & non-static which means an inner class can be
+static as well as non-static.
+
+e.g. 
+public class A{
+
+   public static class B{
+
+
+   }
+
+   public class C{
+
+
+   }
+}
+
+Here A.B is a static member and A.C is a non-static member.
 
 
